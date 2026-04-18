@@ -15,6 +15,9 @@ import voltaic.prefab.tile.GenericTile;
 import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.ComponentFluidHandlerMulti;
 import voltaic.prefab.tile.components.type.ComponentProcessor;
+import voltaic.prefab.screen.component.types.guitab.ScreenComponentElectricInfo;
+import voltaic.prefab.screen.component.utils.AbstractScreenComponentInfo;
+
 
 @OnlyIn(Dist.CLIENT)
 public class ScreenCircuitMaker extends GenericMaterialScreen<ContainerCircuitMaker> {
@@ -39,6 +42,8 @@ public class ScreenCircuitMaker extends GenericMaterialScreen<ContainerCircuitMa
             }
             return null;
         }, 21, 18));
-        new WrapperInventoryIO(this, -25, 28, 75, 82, 8, 72);
+        addComponent(new ScreenComponentElectricInfo(-AbstractScreenComponentInfo.SIZE + 1, 2));
+        
+        new WrapperInventoryIO(this, -AbstractScreenComponentInfo.SIZE + 1, AbstractScreenComponentInfo.SIZE + 2, 75, 82, 8, 72);
     }
 }
