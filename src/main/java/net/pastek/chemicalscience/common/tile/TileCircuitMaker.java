@@ -22,6 +22,7 @@ import voltaic.prefab.tile.components.IComponentType;
 import voltaic.prefab.tile.components.type.*;
 import voltaic.prefab.tile.types.GenericMaterialTile;
 import voltaic.prefab.utilities.BlockEntityUtils;
+import voltaic.registers.VoltaicCapabilities;
 
 public class TileCircuitMaker extends GenericMaterialTile implements ITickableSound {
     public static final int MAX_TANK_CAPACITY = 5000;
@@ -32,7 +33,7 @@ public class TileCircuitMaker extends GenericMaterialTile implements ITickableSo
         addComponent(new ComponentPacketHandler(this));
         addComponent(new ComponentTickable(this).tickClient(this::tickClient));
         addComponent(new ComponentElectrodynamic(this, false, true).setInputDirections(new BlockEntityUtils.MachineDirection[]{BlockEntityUtils.MachineDirection.BACK}).voltage((double)480.0F));
-        addComponent(new ComponentFluidHandlerMulti(this).setInputTanks(1, new int[]{5000}).setInputDirections(new BlockEntityUtils.MachineDirection[]{BlockEntityUtils.MachineDirection.RIGHT}).setRecipeType(CSRecipies.CIRCUIT_MAKER_TYPE.get()));
+        addComponent(new ComponentFluidHandlerMulti(this).setInputTanks(1, MAX_TANK_CAPACITY).setInputDirections(BlockEntityUtils.MachineDirection.RIGHT).setRecipeType(CSRecipies.CIRCUIT_MAKER_TYPE.get()));
         addComponent(new ComponentInventory(this, ComponentInventory.InventoryBuilder.newInv().processors(1, 5, 1, 0).bucketInputs(1).upgrades(3)).setSlotsByDirection(BlockEntityUtils.MachineDirection.TOP, 0, 1, 2, 3, 4).setDirectionsBySlot(5, BlockEntityUtils.MachineDirection.BOTTOM, BlockEntityUtils.MachineDirection.LEFT, BlockEntityUtils.MachineDirection.FRONT).validUpgrades(ContainerCircuitMaker.VALID_UPGRADES).valid(machineValidator()));
         addComponent(new ComponentProcessor(this).canProcess((component, procNumber) -> component.consumeBucket().canProcessFluidItem2ItemRecipe(procNumber, CSRecipies.CIRCUIT_MAKER_TYPE.get())).process(ComponentProcessor::processFluidItem2ItemRecipe));
         addComponent(new ComponentContainerProvider(SubtypeChemicalMachine.circuitmaker.tag(), this).createMenu((id, player) -> new ContainerCircuitMaker(id, player, getComponent(IComponentType.Inventory), getCoordsArray())));
